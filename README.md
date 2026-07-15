@@ -1,32 +1,26 @@
 # AHB-to-APB Bridge UVM
 
-SystemVerilog AHB-to-APB bridge project with a structured UVM testbench, an EDA Playground bundle, and a Quartus timing sign-off wrapper.
+This repository contains the active SystemVerilog AHB-to-APB bridge RTL, a structured UVM environment, a flattened EDA Playground bundle, and a Quartus low-I/O timing signoff wrapper.
 
-## Repository Layout
+`edaplayground/design.sv` is the RTL source of truth. `edaplayground/result/` is archived simulator evidence only.
 
-| Path | Purpose |
+## Project Snapshot
+
+| Area | Status |
 | --- | --- |
-| `edaplayground/design.sv` | Active bridge RTL source used by simulation and Quartus |
-| `edaplayground/testbench.sv` | Flattened EDA Playground UVM testbench bundle |
-| `edaplayground/run.bash` | EDA Playground/Questa regression wrapper |
-| `tb/` | Structured local UVM interfaces, agents, sequences, tests, scoreboard, coverage, and assertions |
-| `sim/` | Local ModelSim/Questa Makefile and `run.do` flow |
-| `quartus_fmax/` | Active Quartus `bridge_core_fmax` low-I/O timing project |
-| `docs/` | Verification plan, compliance boundary, EDA notes, archived-run summary, and timing status |
-
-`edaplayground/design.sv` is the RTL source of truth. The local `tb/` flow compiles that RTL directly instead of maintaining a second RTL copy.
+| RTL source | `edaplayground/design.sv` |
+| Local UVM | `tb/` + `sim/` |
+| EDA bundle | `edaplayground/testbench.sv` + `edaplayground/run.bash` |
+| Quartus signoff | `quartus_fmax/bridge_core_fmax.qpf` |
+| Architecture doc | `docs/architecture_overview.md` |
+| Timing evidence | `docs/timing_signoff_status.md` |
+| Archived Questa evidence | `docs/eda_playground_result.md` |
 
 ## Architecture
 
-The bridge is implemented as `Bridge_Top` in `edaplayground/design.sv`:
+![Bridge state machine](docs/state.png)
 
-```text
-AHB inputs -> ahb_request_validator -> bridge_7state_core -> APB outputs
-```
-
-The active release profile is a 32-bit, 3-slave, transaction-buffered AHB-to-APB bridge. It validates the AHB address/control phase, decodes one-hot `Pselx`, generates `Pstrb`/`Pprot`, holds APB setup/access payload stable through `PREADY` wait states, maps local decode/alignment failures and `PSLVERR` to two-cycle AHB `ERROR`, and returns read data through a registered response path.
-
-Address map:
+The bridge is a 32-bit, 3-slave, transaction-buffered AHB-to-APB bridge. `Bridge_Top` is organized as `ahb_request_validator -> bridge_7state_core -> APB outputs`.
 
 | AHB address range | APB select |
 | --- | --- |
@@ -35,11 +29,34 @@ Address map:
 | `0x8800_0000` to `0x8BFF_FFFF` | `Pselx[2]` |
 | Other addresses | local AHB `ERROR`, no APB transfer |
 
-See `docs/architecture_overview.md` for the state machine, request buffering, error mapping, and scope limits.
+See `docs/architecture_overview.md` for the state machine, request buffering, and scope limits.
 
-The generated state-machine diagram is `docs/state.png`.
+## Verification Evidence
 
-## Simulation
+| Artifact | Meaning |
+| --- | --- |
+| `edaplayground/result/regression_logs/bridge_ahb_apb4_random_test_seed1.log` | Archived clean Questa regression log |
+| `edaplayground/result/regression_logs/bridge_ahb_apb4_random_test_seed1_vcover_detail.rpt` | Assertion coverage detail |
+| `quartus_fmax/output_files_core/bridge_core_fmax.postfit_sta.short.summary` | Current post-fit timing summary |
+
+Archived Questa run:
+
+- Test: `bridge_ahb_apb4_random_test`
+- Seed: `1`
+- `UVM_ERROR = 0`
+- `UVM_FATAL = 0`
+- AHB bus coverage: `100.00%`
+- AHB accepted-transfer coverage: `98.75%`
+- AHB aggregate coverage: `99.38%`
+- APB coverage: `100.00%`
+
+Post-fit timing:
+
+- Setup slack: `+0.174 ns`
+- Hold slack: `+0.162 ns`
+- TNS: `0.000 ns`
+
+## How To Run
 
 Local compile:
 
@@ -47,44 +64,35 @@ Local compile:
 make -C sim compile
 ```
 
-Local run:
+Local simulation:
 
 ```sh
 make -C sim run TEST=bridge_ahb_apb4_random_test NUM_ITEMS=100 SEED=random
 ```
 
-EDA/Questa bundled run:
+Archived EDA bundle:
 
 ```sh
 cd edaplayground
 MODE=single TEST=bridge_ahb_apb4_random_test SEEDS=1 bash run.bash
 ```
 
-The current host can compile the local Questa flow, but `vsim` runtime depends on a valid Questa license environment.
+Quartus timing:
 
-## Timing
+- Use `docs/timing_signoff_status.md` for the exact 64-bit compatibility environment and `postfit_sta_short.tcl` flow.
 
-The active timing project is `quartus_fmax/bridge_core_fmax.qpf` for Cyclone V `5CSEMA5F31C6`.
+## Scope
 
-Current post-fit TimeQuest evidence passes the 100 MHz target:
+This repo documents an educational AHB/APB bridge subset, not full AMBA Rev 2.0 compliance.
 
-| Check | Worst Slack | TNS |
-| --- | ---: | ---: |
-| Setup | +0.174 ns | 0.000 ns |
-| Hold | +0.162 ns | 0.000 ns |
-
-Focused STA artifact:
-
-```text
-quartus_fmax/output_files_core/bridge_core_fmax.postfit_sta.short.summary
-```
-
-Use the focused STA script for the reliable local report path:
-
-```sh
-cd quartus_fmax
-quartus_sta -t postfit_sta_short.tcl
-```
+| Area | Current scope |
+| --- | --- |
+| `HBURST` | Sideband only |
+| `HMASTLOCK` | Sideband only |
+| `RETRY` / `SPLIT` | Not implemented |
+| `PPROT[1]` | Hardwired secure |
+| AMBA TIC/test interface | Not implemented |
+| `USE_PCLKEN=1` | Supported in RTL, default verification profile is same-clock |
 
 ## Documentation
 
