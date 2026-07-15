@@ -57,8 +57,10 @@ class bridge_scoreboard extends uvm_component;
     exp.pwrite  = tr.hwrite;
     exp.penable = 1'b0;
     exp.pselx   = tr.decode_pselx();
-    exp.paddr   = tr.haddr;
+    exp.paddr   = tr.make_paddr();
     exp.pwdata  = tr.hwdata;
+    exp.pstrb   = tr.make_pstrb();
+    exp.pprot   = tr.make_pprot();
     expected_q.push_back(exp);
   endfunction
 
@@ -109,6 +111,14 @@ class bridge_scoreboard extends uvm_component;
         `uvm_error("SCB", $sformatf("Setup PWDATA mismatch exp=0x%08h got=0x%08h", exp.pwdata, got.pwdata))
       end
 
+      if (got.pstrb !== exp.pstrb) begin
+        `uvm_error("SCB", $sformatf("Setup PSTRB mismatch exp=%04b got=%04b addr=0x%08h hwrite=%0b", exp.pstrb, got.pstrb, exp.paddr, exp.pwrite))
+      end
+
+      if (got.pprot !== exp.pprot) begin
+        `uvm_error("SCB", $sformatf("Setup PPROT mismatch exp=%03b got=%03b", exp.pprot, got.pprot))
+      end
+
       return;
     end
 
@@ -139,6 +149,18 @@ class bridge_scoreboard extends uvm_component;
 
     if (active_exp.pwrite && got.pwdata !== setup_obs.pwdata) begin
       `uvm_error("SCB", $sformatf("PWDATA changed setup->enable setup=0x%08h enable=0x%08h", setup_obs.pwdata, got.pwdata))
+    end
+
+    if (got.pstrb !== setup_obs.pstrb) begin
+      `uvm_error("SCB", $sformatf("PSTRB changed setup->enable setup=%04b enable=%04b", setup_obs.pstrb, got.pstrb))
+    end
+
+    if (got.pprot !== setup_obs.pprot) begin
+      `uvm_error("SCB", $sformatf("PPROT changed setup->enable setup=%03b enable=%03b", setup_obs.pprot, got.pprot))
+    end
+
+    if (got.phase == APB_ENABLE && !got.pready) begin
+      return;
     end
 
     have_setup = 1'b0;

@@ -1,14 +1,12 @@
-TEST ?= bridge_random_test
+TEST ?= bridge_ahb_apb4_random_test
 NUM_ITEMS ?= 100
 SEED ?= random
 
-RTL_DIR := ../AHB-to-APB-Bridge
+RTL_DIR := ../edaplayground
 TB_DIR  := ../tb
 
 RTL_FILES := \
-  $(RTL_DIR)/AHB_Slave_Interface.v \
-  $(RTL_DIR)/APB_Controller.v \
-  $(RTL_DIR)/bridge_top.v
+  $(RTL_DIR)/design.sv
 
 TB_FILES := \
   $(TB_DIR)/interfaces/ahb_if.sv \
@@ -31,7 +29,7 @@ INCDIRS := \
 
 compile:
 	@if [ ! -d work ]; then vlib work; fi
-	vlog -sv $(INCDIRS) $(RTL_FILES) $(TB_FILES)
+	vlog -sv +define+BRIDGE_RTL_ASSERTIONS $(INCDIRS) $(RTL_FILES) $(TB_FILES)
 
 run: compile
 	vsim -c work.tb_top +UVM_TESTNAME=$(TEST) +NUM_ITEMS=$(NUM_ITEMS) -sv_seed $(SEED) -do "run -all; quit -f"

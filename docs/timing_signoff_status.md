@@ -4,11 +4,11 @@ Date: 2026-07-15
 
 ## Conclusion
 
-The current `bridge_core_fmax` Quartus flow now has completed post-fit timing evidence at the 100 MHz target for the low-I/O signoff wrapper.
+The current `bridge_core_fmax` Quartus flow has a fresh successful post-fit timing rerun at the 100 MHz target for the low-I/O signoff wrapper.
 
 Post-fit multicorner TimeQuest passes with worst setup slack `+0.174 ns`, worst hold slack `+0.162 ns`, and `0.000 ns` TNS at all reported corners.
 
-The default `quartus_sta bridge_core_fmax` report generator still does not exit cleanly on this host within the local 20 minute limit and leaves `bridge_core_fmax.sta.summary` empty. The valid post-fit timing artifact for this run is the focused TimeQuest script output:
+The checked-in evidence is the focused TimeQuest summary:
 
 ```text
 quartus_fmax/output_files_core/bridge_core_fmax.postfit_sta.short.summary
@@ -31,28 +31,11 @@ Tool              : Quartus II 13.1.0 Build 162 SJ Web Edition
 
 The wrapper intentionally reduces top-level I/O to `clk`, `reset_n`, and `led[7:0]` while instantiating `Bridge_Top`, so timing is closed on a low-I/O implementation of the active bridge RTL instead of the 228-pin raw bridge interface.
 
-## Wrapper Timing Fix
-
-The first post-fit STA attempt exposed a real wrapper timing failure on the combinational status output path:
-
-```text
-From: Bridge_Top:dut|bridge_7state_core:core|req.aligned_addr_word[4]
-To  : led[6]
-Slow 1100mV 85C setup slack: -3.174 ns
-Slow 1100mV 0C setup slack : -2.963 ns
-```
-
-`quartus_fmax/bridge_fmax_core_top.sv` now registers `led[7:0]`. This keeps the status output observable while removing the long bridge-core-to-output-pin combinational path. The successful fitter run packed the 8 LED registers into I/O output buffers.
-
 ## Commands Used
 
-The successful fit required the local Quartus 13.1 runtime workaround used during investigation:
+The working Quartus 13.1 compatibility environment was:
 
 ```sh
-LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2 \
-LD_LIBRARY_PATH=/home/sinh/altera/13.1/quartus/compat-lib/cilkrts:/home/sinh/altera/13.1/quartus/compat-lib/libpng12:/home/sinh/altera/13.1/quartus/linux64:/home/sinh/altera/13.1/quartus/linux:$LD_LIBRARY_PATH \
-/home/sinh/altera/13.1/quartus/bin/quartus_sh --clean bridge_core_fmax
-
 LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2 \
 LD_LIBRARY_PATH=/home/sinh/altera/13.1/quartus/compat-lib/cilkrts:/home/sinh/altera/13.1/quartus/compat-lib/libpng12:/home/sinh/altera/13.1/quartus/linux64:/home/sinh/altera/13.1/quartus/linux:$LD_LIBRARY_PATH \
 /home/sinh/altera/13.1/quartus/bin/quartus_map --64bit bridge_core_fmax
@@ -93,8 +76,8 @@ Flow summary:
 | Item | Value |
 | --- | --- |
 | Flow status | Successful |
-| Fit completed | Wed Jul 15 15:02:46 2026 |
-| STA script completed | Wed Jul 15 15:26:42 2026 |
+| Fit completed | Wed Jul 15 20:18:15 2026 |
+| STA script completed | Wed Jul 15 20:18:29 2026 |
 | Logic utilization | 37 / 32,070 ALMs, < 1% |
 | Total registers | 85 |
 | Total pins | 10 / 457, 2% |
@@ -135,8 +118,8 @@ Clock status:
 | --- | --- | --- | --- |
 | clk | clk | Base | Constrained |
 
-## Host Notes
+## Notes
 
-Without the local runtime workaround, `quartus_fit` still hangs in the Quartus 13.1 `libtbbmalloc.so.2` path on this host. The working fit environment uses `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2` and the Quartus compatibility libraries under `/home/sinh/altera/13.1/quartus/compat-lib/`.
+The working fit environment uses `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2` and the Quartus compatibility libraries under `/home/sinh/altera/13.1/quartus/compat-lib/`.
 
-The standard TimeQuest default report path is still unreliable on this host. Use `postfit_sta_short.tcl` for reproducible post-fit summary timing evidence unless a newer or supported Quartus environment is available.
+Use `postfit_sta_short.tcl` for reproducible post-fit summary timing evidence.

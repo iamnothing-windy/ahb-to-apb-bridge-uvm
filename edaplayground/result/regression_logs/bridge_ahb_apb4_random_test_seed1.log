@@ -1,0 +1,607 @@
+QuestaSim-64 qrun 2025.2 Utility 2025.05 May 31 2025
+Start time: 06:44:28 on Jul 15,2026
+qrun -clean -batch -access=rw+/. -uvmhome uvm-1.2 -timescale 1ns/1ns -mfcu "+define+BRIDGE_RTL_ASSERTIONS" -coverage -sv_seed 1 design.sv testbench.sv -voptargs="+acc=npr" -do "transcript on
+onbreak {quit -f}
+onerror {quit -code 1 -f}
+onfinish stop
+puts "RUN_BASH_DO_VERSION: single_entry_rtl_assertions_vcover"
+if {[catch {coverage save -onexit bridge.ucdb} cov_save_err]} {
+  puts "COVERAGE_SAVE_ONEXIT_WARNING: $cov_save_err"
+}
+run 2000000ns
+if {[catch {coverage save bridge.ucdb} cov_save_now_err]} {
+  puts "COVERAGE_SAVE_NOW_WARNING: $cov_save_now_err"
+}
+if {[catch {coverage report -details -cvg -file bridge_cvg_detail.rpt} cov_err]} {
+  puts "COVERGROUP_COVERAGE_REPORT_WARNING: $cov_err"
+}
+if {[catch {coverage report -details -assert -file bridge_assert_detail.rpt} assert_cov_err]} {
+  puts "ASSERTION_COVERAGE_REPORT_WARNING: $assert_cov_err"
+}
+if {[catch {coverage report -details -codeAll -assert -file bridge_code_assert_detail.rpt} code_cov_err]} {
+  puts "CODE_ASSERTION_COVERAGE_REPORT_WARNING: $code_cov_err"
+}
+puts "RUN_BASH_DO_DONE"
+quit -f" "+UVM_TESTNAME=bridge_ahb_apb4_random_test" "+UVM_NO_RELNOTES" "+NO_COLOR_MISMATCH" "+NUM_ITEMS=500" "+MAX_ITEMS=10000" "+APB_MAX_WAIT=3" "+APB_ERR_PERCENT=15" "+STRICT_SPEC_COVERAGE" 
+** Note: (qrun-220) 'modelsim.ini' is used as the ini file.
+Creating library 'qrun.out/work'.
+Mapping library 'mtiUvm' to 'qrun.out/work'.
+** Note: (vmap-220) 'modelsim.ini' is used as the ini file.
+QuestaSim-64 vlog 2025.2 Compiler 2025.05 May 31 2025
+Start time: 06:44:28 on Jul 15,2026
+vlog -timescale 1ns/1ns -mfcu "+define+BRIDGE_RTL_ASSERTIONS" -ccflags "-Wno-missing-declarations" -ccflags "-Wno-maybe-uninitialized" -ccflags "-Wno-return-type" -ccflags "-DQUESTA" /usr/share/questa/questasim/verilog_src/uvm-1.2/src/dpi/uvm_dpi.cc /usr/share/questa/questasim/verilog_src/uvm-1.2/src/uvm_pkg.sv /usr/share/questa/questasim/verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv design.sv testbench.sv -work qrun.out/work "+incdir+/usr/share/questa/questasim/verilog_src/uvm-1.2/src" -statslog qrun.out/stats_log -csession=incr 
+** Note: (vlog-220) 'modelsim.ini' is used as the ini file.
+-- Compiling package uvm_pkg (uvm-1.2 Built-in)
+-- Compiling package questa_uvm_pkg
+-- Importing package uvm_pkg (uvm-1.2 Built-in)
+-- Compiling package bridge_pkg
+-- Compiling module ahb_request_validator
+-- Importing package bridge_pkg
+-- Compiling module bridge_7state_core
+-- Compiling module Bridge_Top
+-- Compiling interface ahb_if
+-- Compiling interface apb_if
+-- Compiling package bridge_uvm_pkg
+-- Compiling module bridge_assertions
+-- Compiling package uvm_pkg_sv_unit
+-- Importing package uvm_pkg (uvm-1.2 Built-in)
+-- Importing package bridge_uvm_pkg
+-- Compiling module tb_top
+
+Top level modules:
+	tb_top
+** Note: (vlog-7082) For C/C++ auto compile, choosing compiler /usr/bin/g++ set from the PATH environment variable.
+-- Compiling DPI/PLI C++ file /usr/share/questa/questasim/verilog_src/uvm-1.2/src/dpi/uvm_dpi.cc
+End time: 06:44:32 on Jul 15,2026, Elapsed time: 0:00:04
+Errors: 0, Warnings: 0
+QuestaSim-64 vopt 2025.2 Compiler 2025.05 May 31 2025
+** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
+Start time: 06:44:32 on Jul 15,2026
+vopt -access=rw+/. -timescale 1ns/1ns -mfcu "+acc=npr" -findtoplevels qrun.out/work+2+ -work qrun.out/work -statslog qrun.out/stats_log -csession=incr -o qrun_opt -csessionid=3 
+** Note: (vopt-220) 'modelsim.ini' is used as the ini file.
+
+Top level modules:
+	tb_top
+
+Analyzing design...
+-- Loading module tb_top
+-- Loading package questa_uvm_pkg
+-- Loading interface ahb_if
+-- Loading interface apb_if
+-- Loading module Bridge_Top
+-- Importing package bridge_pkg
+-- Loading module ahb_request_validator
+-- Loading module bridge_7state_core
+-- Loading module bridge_assertions
+Optimizing 14 design-units (inlining 0/7 module instances):
+-- Optimizing package uvm_pkg (uvm-1.2 Built-in)(fast)
+-- Optimizing package questa_uvm_pkg(fast)
+-- Optimizing package bridge_uvm_pkg(fast)
+-- Optimizing package uvm_pkg_sv_unit(fast)
+-- Optimizing package bridge_pkg(fast)
+-- Optimizing module bridge_assertions(fast)
+-- Optimizing module bridge_7state_core(fast)
+-- Optimizing module tb_top(fast)
+-- Optimizing module ahb_request_validator(fast)
+-- Optimizing module Bridge_Top(fast)
+-- Optimizing interface ahb_if(fast__2)
+-- Optimizing interface apb_if(fast__2)
+-- Optimizing interface apb_if(fast)
+-- Optimizing interface ahb_if(fast)
+Optimized design name is qrun_opt
+End time: 06:44:41 on Jul 15,2026, Elapsed time: 0:00:09
+Errors: 0, Warnings: 1
+# ** Note: (vsim-220) 'modelsim.ini' is used as the ini file.
+# vsim -batch -sv_seed 1 "+UVM_TESTNAME=bridge_ahb_apb4_random_test" "+UVM_NO_RELNOTES" "+NO_COLOR_MISMATCH" "+NUM_ITEMS=500" "+MAX_ITEMS=10000" "+APB_MAX_WAIT=3" "+APB_ERR_PERCENT=15" "+STRICT_SPEC_COVERAGE" -lib qrun.out/work -do "coverage save -onexit bridge_ahb_apb4_random_test_$Sv_Seed.ucdb" -do "transcript on
+# onbreak {quit -f}
+# onerror {quit -code 1 -f}
+# onfinish stop
+# puts "RUN_BASH_DO_VERSION: single_entry_rtl_assertions_vcover"
+# if {[catch {coverage save -onexit bridge.ucdb} cov_save_err]} {
+#   puts "COVERAGE_SAVE_ONEXIT_WARNING: $cov_save_err"
+# }
+# run 2000000ns
+# if {[catch {coverage save bridge.ucdb} cov_save_now_err]} {
+#   puts "COVERAGE_SAVE_NOW_WARNING: $cov_save_now_err"
+# }
+# if {[catch {coverage report -details -cvg -file bridge_cvg_detail.rpt} cov_err]} {
+#   puts "COVERGROUP_COVERAGE_REPORT_WARNING: $cov_err"
+# }
+# if {[catch {coverage report -details -assert -file bridge_assert_detail.rpt} assert_cov_err]} {
+#   puts "ASSERTION_COVERAGE_REPORT_WARNING: $assert_cov_err"
+# }
+# if {[catch {coverage report -details -codeAll -assert -file bridge_code_assert_detail.rpt} code_cov_err]} {
+#   puts "CODE_ASSERTION_COVERAGE_REPORT_WARNING: $code_cov_err"
+# }
+# puts "RUN_BASH_DO_DONE"
+# quit -f" -statslog qrun.out/stats_log qrun_opt -appendlog -l qrun.log 
+# Start time: 06:44:42 on Jul 15,2026
+# Loading /tmp/root@0eb8d086d2a4_dpi_43/linux_x86_64_gcc-11/export_tramp.so
+# //  Questa Sim-64
+# //  Version 2025.2 linux_x86_64 May 31 2025
+# //
+# // Unpublished work. Copyright 2025 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.ahb_if(fast)
+# Loading work.apb_if(fast)
+# Loading work.uvm_pkg(fast)
+# Loading work.bridge_uvm_pkg(fast)
+# Loading work.uvm_pkg_sv_unit(fast)
+# Loading work.questa_uvm_pkg(fast)
+# Loading work.tb_top(fast)
+# Loading work.ahb_if(fast__2)
+# Loading work.apb_if(fast__2)
+# Loading work.bridge_pkg(fast)
+# Loading work.Bridge_Top(fast)
+# Loading work.ahb_request_validator(fast)
+# Loading work.bridge_7state_core(fast)
+# Loading work.bridge_assertions(fast)
+# ** Note: (vsim-7082) For C/C++ auto compile, choosing compiler /usr/bin/g++ set from the PATH environment variable.
+# Compiling /tmp/root@0eb8d086d2a4_dpi_43/linux_x86_64_gcc-11/exportwrapper.c
+# Loading /tmp/root@0eb8d086d2a4_dpi_43/linux_x86_64_gcc-11/vsim_auto_compile.so
+RUN_BASH_DO_VERSION: single_entry_rtl_assertions_vcover
+# 
+# coverage save -onexit bridge_ahb_apb4_random_test_$Sv_Seed.ucdb
+# transcript on
+# onbreak {quit -f}
+# onerror {quit -code 1 -f}
+# onfinish stop
+# puts "RUN_BASH_DO_VERSION: single_entry_rtl_assertions_vcover"
+# if {[catch {coverage save -onexit bridge.ucdb} cov_save_err]} {
+#   puts "COVERAGE_SAVE_ONEXIT_WARNING: $cov_save_err"
+# }
+# run 2000000ns
+# UVM_INFO /usr/share/questa/questasim/verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(277) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO /usr/share/questa/questasim/verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_INFO @ 0: reporter [RNTST] Running test bridge_ahb_apb4_random_test...
+# UVM_INFO testbench.sv(2450) @ 0: uvm_test_top [TEST] Starting ahb_spec_random_seq with num_items=500 max_items=10000
+# UVM_INFO testbench.sv(754) @ 105000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=0101 hmastlock=0 hreadyin=1 haddr=0xd48dbd6d hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 345000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=100 hprot=1101 hmastlock=0 hreadyin=1 haddr=0x49305624 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 475000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=1010 hmastlock=1 hreadyin=1 haddr=0x860e60b5 hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 545000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=1000 hmastlock=0 hreadyin=1 haddr=0xf2bd2b50 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 745000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=001 hprot=1101 hmastlock=0 hreadyin=1 haddr=0x491425de hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 805000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=010 hprot=1010 hmastlock=0 hreadyin=1 haddr=0x88000000 hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 815000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x88000000 pwdata=0x00000000 prdata=0x1b0cb843 pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 825000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x88000000 pwdata=0x00000000 prdata=0x1b0cb843 pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(754) @ 885000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=011 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x86fc8b2b hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 945000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=101 hprot=1011 hmastlock=0 hreadyin=1 haddr=0x8b9d7f8a hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 1015000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x82b6fdfd hwdata=0x00000000 valid=0 error=1 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 1085000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=001 hprot=1110 hmastlock=0 hreadyin=1 haddr=0x825cb660 hwdata=0x00000000 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 1095000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x825cb660 pwdata=0x00000000 prdata=0x0928eb50 pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 1105000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x825cb660 pwdata=0x00000000 prdata=0x0928eb50 pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 1115000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x825cb660 pwdata=0x00000000 prdata=0x0928eb50 pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 1125000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x825cb660 pwdata=0x00000000 prdata=0x0928eb50 pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 1135000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=1 pslverr=1 paddr=0x825cb660 pwdata=0x00000000 prdata=0x0928eb50 pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(754) @ 1175000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=110 hprot=1001 hmastlock=0 hreadyin=1 haddr=0x826972c8 hwdata=0x00000000 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 1185000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x826972c8 pwdata=0x00000000 prdata=0xdbdd1131 pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 1195000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x826972c8 pwdata=0x00000000 prdata=0xdbdd1131 pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 1205000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=1 pslverr=0 paddr=0x826972c8 pwdata=0x00000000 prdata=0xdbdd1131 pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(754) @ 1315000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=100 hprot=0001 hmastlock=0 hreadyin=1 haddr=0x83fb1fb8 hwdata=0x00000000 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 1325000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x83fb1fb8 pwdata=0x00000000 prdata=0x0f7f8234 pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 1335000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x83fb1fb8 pwdata=0x00000000 prdata=0x0f7f8234 pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 1345000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x83fb1fb8 pwdata=0x00000000 prdata=0x0f7f8234 pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 1355000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x83fb1fb8 pwdata=0x00000000 prdata=0x0f7f8234 pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 1365000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=1 pslverr=0 paddr=0x83fb1fb8 pwdata=0x00000000 prdata=0x0f7f8234 pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(754) @ 1445000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0xc06b7682 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 1515000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=010 hprot=0000 hmastlock=0 hreadyin=1 haddr=0x842535a8 hwdata=0x618ad3d9 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 1525000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x842535a8 pwdata=0x618ad3d9 prdata=0xba007a90 pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(843) @ 1535000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x842535a8 pwdata=0x618ad3d9 prdata=0xba007a90 pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(843) @ 1545000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x842535a8 pwdata=0x618ad3d9 prdata=0xba007a90 pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(843) @ 1555000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x842535a8 pwdata=0x618ad3d9 prdata=0xba007a90 pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(754) @ 1725000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=100 hprot=1111 hmastlock=0 hreadyin=1 haddr=0x84ac7b2a hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(710) @ 2185000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=100 hprot=0001 hmastlock=0 hreadyin=1 haddr=0x877d80a8 hwdata=0x84b2eb12 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 2195000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x877d80a8 pwdata=0x84b2eb12 prdata=0xbb6a1072 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 2205000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x877d80a8 pwdata=0x84b2eb12 prdata=0xbb6a1072 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 2215000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x877d80a8 pwdata=0x84b2eb12 prdata=0xbb6a1072 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 2225000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x877d80a8 pwdata=0x84b2eb12 prdata=0xbb6a1072 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(710) @ 2365000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=100 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x81dca2d0 hwdata=0x9f10a3a6 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 2375000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x81dca2d0 pwdata=0x9f10a3a6 prdata=0x7f523fda pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 2385000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x81dca2d0 pwdata=0x9f10a3a6 prdata=0x7f523fda pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 2395000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=001 penable=1 pready=1 pslverr=0 paddr=0x81dca2d0 pwdata=0x9f10a3a6 prdata=0x7f523fda pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 2465000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=010 hprot=0000 hmastlock=0 hreadyin=1 haddr=0x80fcf64f hwdata=0x00000000 valid=0 error=1 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 2545000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=011 hburst=000 hprot=1011 hmastlock=0 hreadyin=1 haddr=0x396397c5 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 2605000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=100 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x848a6ec9 hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 2695000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=100 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x7ffffffc hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 2825000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=0100 hmastlock=0 hreadyin=1 haddr=0x8468b51e hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 2895000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=110 hprot=1001 hmastlock=0 hreadyin=1 haddr=0x24d53266 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 2985000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=010 hprot=0001 hmastlock=0 hreadyin=1 haddr=0x81bd5cf4 hwdata=0x715c90d9 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 2995000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x81bd5cf4 pwdata=0x715c90d9 prdata=0xc8534804 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 3005000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x81bd5cf4 pwdata=0x715c90d9 prdata=0xc8534804 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 3015000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x81bd5cf4 pwdata=0x715c90d9 prdata=0xc8534804 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 3025000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=001 penable=1 pready=1 pslverr=0 paddr=0x81bd5cf4 pwdata=0x715c90d9 prdata=0xc8534804 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(754) @ 3095000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0010 hmastlock=0 hreadyin=1 haddr=0x7ffffffc hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 3165000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=010 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x1ec4a36d hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 3205000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=100 hprot=0011 hmastlock=1 hreadyin=1 haddr=0x824d6dec hwdata=0x00000000 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 3215000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x824d6dec pwdata=0x715c90d9 prdata=0xb8029bbd pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 3225000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=1 pslverr=0 paddr=0x824d6dec pwdata=0x715c90d9 prdata=0xb8029bbd pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(754) @ 3265000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=101 hprot=1010 hmastlock=0 hreadyin=1 haddr=0x8bfffffc hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 3275000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8bfffffc pwdata=0x715c90d9 prdata=0xc278ad1d pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 3285000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8bfffffc pwdata=0x715c90d9 prdata=0xc278ad1d pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 3295000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8bfffffc pwdata=0x715c90d9 prdata=0xc278ad1d pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 3305000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x8bfffffc pwdata=0x715c90d9 prdata=0xc278ad1d pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(710) @ 3365000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=010 hprot=0001 hmastlock=0 hreadyin=1 haddr=0x84bdaed0 hwdata=0xe91a2b85 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 3375000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x84bdaed0 pwdata=0xe91a2b85 prdata=0x53c33745 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 3385000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x84bdaed0 pwdata=0xe91a2b85 prdata=0x53c33745 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(754) @ 3435000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=0101 hmastlock=0 hreadyin=1 haddr=0x849b31bc hwdata=0x00000000 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 3445000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x849b31bc pwdata=0xe91a2b85 prdata=0x3efd6fc8 pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 3455000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x849b31bc pwdata=0xe91a2b85 prdata=0x3efd6fc8 pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 3465000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x849b31bc pwdata=0xe91a2b85 prdata=0x3efd6fc8 pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 3475000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x849b31bc pwdata=0xe91a2b85 prdata=0x3efd6fc8 pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(754) @ 3555000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=100 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x18e3ed00 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 3655000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=011 hprot=0100 hmastlock=0 hreadyin=1 haddr=0x88f016b8 hwdata=0xb3a2c89b valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 3665000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x88f016b8 pwdata=0xb3a2c89b prdata=0xb4fa5f7d pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(843) @ 3675000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x88f016b8 pwdata=0xb3a2c89b prdata=0xb4fa5f7d pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(843) @ 3685000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x88f016b8 pwdata=0xb3a2c89b prdata=0xb4fa5f7d pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(843) @ 3695000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x88f016b8 pwdata=0xb3a2c89b prdata=0xb4fa5f7d pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(843) @ 3705000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x88f016b8 pwdata=0xb3a2c89b prdata=0xb4fa5f7d pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(710) @ 3785000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=101 hprot=0000 hmastlock=0 hreadyin=1 haddr=0x8ad9d4f4 hwdata=0xcf944614 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 3795000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8ad9d4f4 pwdata=0xcf944614 prdata=0x6aa1a1e9 pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(843) @ 3805000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8ad9d4f4 pwdata=0xcf944614 prdata=0x6aa1a1e9 pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(843) @ 3815000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8ad9d4f4 pwdata=0xcf944614 prdata=0x6aa1a1e9 pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(843) @ 3825000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8ad9d4f4 pwdata=0xcf944614 prdata=0x6aa1a1e9 pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(843) @ 3835000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x8ad9d4f4 pwdata=0xcf944614 prdata=0x6aa1a1e9 pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(754) @ 3885000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=111 hprot=1101 hmastlock=0 hreadyin=1 haddr=0x5ca83d5c hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 3955000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=011 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x84b19fd7 hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 4115000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=1001 hmastlock=0 hreadyin=1 haddr=0x81018b8e hwdata=0x00000000 valid=0 error=1 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 4165000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=011 hburst=000 hprot=0010 hmastlock=0 hreadyin=1 haddr=0x8459d0c0 hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 4305000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=1100 hmastlock=0 hreadyin=1 haddr=0x2b3a14b0 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 4385000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=100 hprot=0010 hmastlock=0 hreadyin=1 haddr=0xfe8e68bc hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 4625000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=010 hprot=0110 hmastlock=0 hreadyin=1 haddr=0xc1b0bd2c hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 4775000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=100 hprot=0011 hmastlock=0 hreadyin=1 haddr=0xbd1b0014 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 4845000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x8709fb47 hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 4915000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=011 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x09622e40 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 5065000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=111 hprot=1101 hmastlock=0 hreadyin=1 haddr=0x87fffffc hwdata=0xf5a6f14d valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 5075000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x87fffffc pwdata=0xf5a6f14d prdata=0x8f240349 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 5085000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x87fffffc pwdata=0xf5a6f14d prdata=0x8f240349 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 5095000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x87fffffc pwdata=0xf5a6f14d prdata=0x8f240349 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 5105000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x87fffffc pwdata=0xf5a6f14d prdata=0x8f240349 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(754) @ 5325000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x8b6be9eb hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 5385000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x868f3033 hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(710) @ 5505000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=011 hprot=1101 hmastlock=0 hreadyin=1 haddr=0x87025544 hwdata=0x7e5943cb valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 5515000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x87025544 pwdata=0x7e5943cb prdata=0xe24cdf04 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 5525000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x87025544 pwdata=0x7e5943cb prdata=0xe24cdf04 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(710) @ 5585000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=000 hprot=1111 hmastlock=0 hreadyin=1 haddr=0x8ba839a4 hwdata=0xcb9ecafa valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 5595000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8ba839a4 pwdata=0xcb9ecafa prdata=0x420588a0 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 5605000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8ba839a4 pwdata=0xcb9ecafa prdata=0x420588a0 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 5615000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8ba839a4 pwdata=0xcb9ecafa prdata=0x420588a0 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 5625000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8ba839a4 pwdata=0xcb9ecafa prdata=0x420588a0 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 5635000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x8ba839a4 pwdata=0xcb9ecafa prdata=0x420588a0 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 5755000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=101 hprot=1010 hmastlock=0 hreadyin=1 haddr=0x855edb2f hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(710) @ 5855000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=010 hprot=0101 hmastlock=0 hreadyin=1 haddr=0x8b01d170 hwdata=0x831c906e valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 5865000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8b01d170 pwdata=0x831c906e prdata=0xbe0909c4 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 5875000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8b01d170 pwdata=0x831c906e prdata=0xbe0909c4 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 5885000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8b01d170 pwdata=0x831c906e prdata=0xbe0909c4 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 5895000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8b01d170 pwdata=0x831c906e prdata=0xbe0909c4 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 5905000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=1 pslverr=1 paddr=0x8b01d170 pwdata=0x831c906e prdata=0xbe0909c4 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(754) @ 6045000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=111 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x84d59718 hwdata=0x00000000 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 6055000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x84d59718 pwdata=0x831c906e prdata=0x9e1267b9 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 6065000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x84d59718 pwdata=0x831c906e prdata=0x9e1267b9 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 6075000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x84d59718 pwdata=0x831c906e prdata=0x9e1267b9 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(754) @ 6145000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x89cfe3c7 hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 6195000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0001 hmastlock=0 hreadyin=1 haddr=0xe64cada8 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 6255000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=010 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x83fffffc hwdata=0x22a5f4b0 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 6265000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x83fffffc pwdata=0x22a5f4b0 prdata=0x58e13350 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 6275000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x83fffffc pwdata=0x22a5f4b0 prdata=0x58e13350 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 6285000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x83fffffc pwdata=0x22a5f4b0 prdata=0x58e13350 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 6295000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=001 penable=1 pready=1 pslverr=1 paddr=0x83fffffc pwdata=0x22a5f4b0 prdata=0x58e13350 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 6375000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=000 hprot=0110 hmastlock=0 hreadyin=1 haddr=0xd1d470ad hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 6495000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=100 hprot=1101 hmastlock=0 hreadyin=1 haddr=0x805fc64c hwdata=0xff998b85 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 6505000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x805fc64c pwdata=0xff998b85 prdata=0x7f4cb4c8 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(843) @ 6515000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=001 penable=1 pready=1 pslverr=0 paddr=0x805fc64c pwdata=0xff998b85 prdata=0x7f4cb4c8 pstrb=1111 pprot=000
+# UVM_INFO testbench.sv(754) @ 6585000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x82012ed1 hwdata=0x00000000 valid=0 error=1 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 6625000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=011 hprot=1011 hmastlock=0 hreadyin=1 haddr=0x0b5ddfd4 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 6685000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=0001 hmastlock=0 hreadyin=1 haddr=0x8af786c5 hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 6755000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0xa206844a hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 6875000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=010 hprot=0101 hmastlock=0 hreadyin=1 haddr=0x85bd174e hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 6935000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=101 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x8bfffffc hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 6945000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8bfffffc pwdata=0xff998b85 prdata=0x83f67374 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 6955000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8bfffffc pwdata=0xff998b85 prdata=0x83f67374 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 6965000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8bfffffc pwdata=0xff998b85 prdata=0x83f67374 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 6975000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8bfffffc pwdata=0xff998b85 prdata=0x83f67374 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 6985000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=1 pslverr=1 paddr=0x8bfffffc pwdata=0xff998b85 prdata=0x83f67374 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(754) @ 7055000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0001 hmastlock=0 hreadyin=1 haddr=0x84aa3b24 hwdata=0x00000000 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 7065000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x84aa3b24 pwdata=0xff998b85 prdata=0x43a5d36c pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 7075000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x84aa3b24 pwdata=0xff998b85 prdata=0x43a5d36c pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 7085000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x84aa3b24 pwdata=0xff998b85 prdata=0x43a5d36c pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 7095000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=1 pslverr=1 paddr=0x84aa3b24 pwdata=0xff998b85 prdata=0x43a5d36c pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(754) @ 7135000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x31212ef8 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 7195000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=110 hprot=0000 hmastlock=0 hreadyin=1 haddr=0x83155958 hwdata=0x76c5c345 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 7205000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x83155958 pwdata=0x76c5c345 prdata=0xfb4e3aaf pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(843) @ 7215000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=001 penable=1 pready=1 pslverr=0 paddr=0x83155958 pwdata=0x76c5c345 prdata=0xfb4e3aaf pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(710) @ 7365000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=010 hprot=1111 hmastlock=0 hreadyin=1 haddr=0x8a8d6bc4 hwdata=0x9ade2c57 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 7375000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8a8d6bc4 pwdata=0x9ade2c57 prdata=0x49914ef7 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 7385000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8a8d6bc4 pwdata=0x9ade2c57 prdata=0x49914ef7 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 7395000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8a8d6bc4 pwdata=0x9ade2c57 prdata=0x49914ef7 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 7405000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x8a8d6bc4 pwdata=0x9ade2c57 prdata=0x49914ef7 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 7465000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0000 hmastlock=0 hreadyin=1 haddr=0xdf09fdd2 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 7585000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=1100 hmastlock=0 hreadyin=1 haddr=0x1635c3c8 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 7635000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=001 hprot=1001 hmastlock=0 hreadyin=1 haddr=0x8b0e0934 hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 7645000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8b0e0934 pwdata=0x9ade2c57 prdata=0x3264fe1d pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 7655000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8b0e0934 pwdata=0x9ade2c57 prdata=0x3264fe1d pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 7665000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8b0e0934 pwdata=0x9ade2c57 prdata=0x3264fe1d pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 7675000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8b0e0934 pwdata=0x9ade2c57 prdata=0x3264fe1d pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 7685000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x8b0e0934 pwdata=0x9ade2c57 prdata=0x3264fe1d pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(710) @ 7895000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x86ee5458 hwdata=0x10f0e45a valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 7905000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x86ee5458 pwdata=0x10f0e45a prdata=0x073dd788 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 7915000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x86ee5458 pwdata=0x10f0e45a prdata=0x073dd788 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 7925000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x86ee5458 pwdata=0x10f0e45a prdata=0x073dd788 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 8065000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=001 hprot=0110 hmastlock=0 hreadyin=1 haddr=0x796bb4d3 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 8165000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=001 hprot=1000 hmastlock=0 hreadyin=1 haddr=0x0bf9d632 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 8315000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=000 hprot=0011 hmastlock=1 hreadyin=1 haddr=0x85b082b4 hwdata=0x9436a952 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 8325000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x85b082b4 pwdata=0x9436a952 prdata=0xfc53d0aa pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 8335000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x85b082b4 pwdata=0x9436a952 prdata=0xfc53d0aa pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 8345000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x85b082b4 pwdata=0x9436a952 prdata=0xfc53d0aa pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 8355000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=1 pslverr=1 paddr=0x85b082b4 pwdata=0x9436a952 prdata=0xfc53d0aa pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 8445000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=1000 hmastlock=0 hreadyin=1 haddr=0x83e6ef74 hwdata=0x00000000 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 8455000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x83e6ef74 pwdata=0x9436a952 prdata=0x75c43c05 pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 8465000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=1 pslverr=0 paddr=0x83e6ef74 pwdata=0x9436a952 prdata=0x75c43c05 pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(754) @ 8535000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x1d5aa968 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 8635000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=1000 hmastlock=0 hreadyin=1 haddr=0x85c02d18 hwdata=0x00000000 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 8645000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x85c02d18 pwdata=0x9436a952 prdata=0x2c5c7767 pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 8655000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x85c02d18 pwdata=0x9436a952 prdata=0x2c5c7767 pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 8665000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x85c02d18 pwdata=0x9436a952 prdata=0x2c5c7767 pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 8675000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x85c02d18 pwdata=0x9436a952 prdata=0x2c5c7767 pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 8685000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x85c02d18 pwdata=0x9436a952 prdata=0x2c5c7767 pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(754) @ 8805000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0xdb68af4a hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 8885000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=011 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x85105350 hwdata=0x7f40d568 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 8895000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x85105350 pwdata=0x7f40d568 prdata=0x1dbdb26c pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 8905000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x85105350 pwdata=0x7f40d568 prdata=0x1dbdb26c pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 8915000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x85105350 pwdata=0x7f40d568 prdata=0x1dbdb26c pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 8985000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=0110 hmastlock=0 hreadyin=1 haddr=0xc4a271ac hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 9065000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=000 hprot=1011 hmastlock=0 hreadyin=1 haddr=0xd46db1cf hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 9135000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=010 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x3137e404 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 9305000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=000 hprot=1111 hmastlock=0 hreadyin=1 haddr=0x8961463c hwdata=0x5a2dd553 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 9315000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8961463c pwdata=0x5a2dd553 prdata=0xa8b7cce5 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 9325000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8961463c pwdata=0x5a2dd553 prdata=0xa8b7cce5 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 9335000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8961463c pwdata=0x5a2dd553 prdata=0xa8b7cce5 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 9345000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8961463c pwdata=0x5a2dd553 prdata=0xa8b7cce5 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 9355000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x8961463c pwdata=0x5a2dd553 prdata=0xa8b7cce5 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 9405000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=101 hprot=0100 hmastlock=0 hreadyin=1 haddr=0x84127eae hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(710) @ 9485000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=001 hprot=0011 hmastlock=1 hreadyin=1 haddr=0x87fffffc hwdata=0x2781ebd8 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 9495000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x87fffffc pwdata=0x2781ebd8 prdata=0xcb7a5845 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 9505000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x87fffffc pwdata=0x2781ebd8 prdata=0xcb7a5845 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 9515000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x87fffffc pwdata=0x2781ebd8 prdata=0xcb7a5845 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 9525000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x87fffffc pwdata=0x2781ebd8 prdata=0xcb7a5845 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 9665000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x7d09ca09 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 9735000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=000 hprot=1010 hmastlock=0 hreadyin=1 haddr=0x5660cc3c hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 9865000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=000 hprot=0110 hmastlock=0 hreadyin=1 haddr=0x88b42bdf hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 9935000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=011 hprot=0001 hmastlock=0 hreadyin=1 haddr=0x7ffffffc hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 9995000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=001 hprot=1100 hmastlock=0 hreadyin=1 haddr=0x80000000 hwdata=0x00000000 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 10005000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x80000000 pwdata=0x2781ebd8 prdata=0x21e8c688 pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 10015000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=1 pslverr=0 paddr=0x80000000 pwdata=0x2781ebd8 prdata=0x21e8c688 pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(754) @ 10225000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x8b0dbe3c hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 10235000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8b0dbe3c pwdata=0x2781ebd8 prdata=0x7b625433 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 10245000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8b0dbe3c pwdata=0x2781ebd8 prdata=0x7b625433 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 10255000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x8b0dbe3c pwdata=0x2781ebd8 prdata=0x7b625433 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(710) @ 10315000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=010 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x898df6f4 hwdata=0xb29bf9c0 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 10325000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x898df6f4 pwdata=0xb29bf9c0 prdata=0x5621b4a2 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 10335000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x898df6f4 pwdata=0xb29bf9c0 prdata=0x5621b4a2 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 10345000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x898df6f4 pwdata=0xb29bf9c0 prdata=0x5621b4a2 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 10355000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x898df6f4 pwdata=0xb29bf9c0 prdata=0x5621b4a2 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 10365000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x898df6f4 pwdata=0xb29bf9c0 prdata=0x5621b4a2 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 10475000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x85144168 hwdata=0x00000000 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 10485000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x85144168 pwdata=0xb29bf9c0 prdata=0x6dad8baa pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 10495000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x85144168 pwdata=0xb29bf9c0 prdata=0x6dad8baa pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 10505000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x85144168 pwdata=0xb29bf9c0 prdata=0x6dad8baa pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 10515000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x85144168 pwdata=0xb29bf9c0 prdata=0x6dad8baa pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 10525000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x85144168 pwdata=0xb29bf9c0 prdata=0x6dad8baa pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(754) @ 10665000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0xd6a2e2ac hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 10725000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=001 hburst=011 hprot=1011 hmastlock=0 hreadyin=1 haddr=0x87fffffc hwdata=0xc665b522 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 10735000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x87fffffc pwdata=0xc665b522 prdata=0xa7251611 pstrb=0011 pprot=001
+# UVM_INFO testbench.sv(843) @ 10745000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=0 pslverr=0 paddr=0x87fffffc pwdata=0xc665b522 prdata=0xa7251611 pstrb=0011 pprot=001
+# UVM_INFO testbench.sv(843) @ 10755000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x87fffffc pwdata=0xc665b522 prdata=0xa7251611 pstrb=0011 pprot=001
+# UVM_INFO testbench.sv(710) @ 10815000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=001 hprot=0100 hmastlock=0 hreadyin=1 haddr=0x81b4426c hwdata=0x99c7bcde valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 10825000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x81b4426c pwdata=0x99c7bcde prdata=0xe2f18da8 pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(843) @ 10835000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=001 penable=1 pready=1 pslverr=0 paddr=0x81b4426c pwdata=0x99c7bcde prdata=0xe2f18da8 pstrb=1111 pprot=100
+# UVM_INFO testbench.sv(754) @ 10935000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=1000 hmastlock=0 hreadyin=1 haddr=0x8bd7c1af hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 11045000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=100 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x84000000 hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 11085000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=100 hprot=1100 hmastlock=0 hreadyin=1 haddr=0x85f57ccf hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 11145000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=000 hprot=1000 hmastlock=0 hreadyin=1 haddr=0x5d590194 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 11215000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0000 hmastlock=0 hreadyin=1 haddr=0x883cc678 hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 11225000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x883cc678 pwdata=0x99c7bcde prdata=0xf39aadd5 pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 11235000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x883cc678 pwdata=0x99c7bcde prdata=0xf39aadd5 pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 11245000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x883cc678 pwdata=0x99c7bcde prdata=0xf39aadd5 pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 11255000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x883cc678 pwdata=0x99c7bcde prdata=0xf39aadd5 pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(754) @ 11355000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x8bc7b351 hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 11395000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=1101 hmastlock=1 hreadyin=1 haddr=0x216d8cf4 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 11445000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x88bc3395 hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 11505000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=010 hprot=1111 hmastlock=0 hreadyin=1 haddr=0x895a1983 hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(710) @ 11585000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x88000000 hwdata=0xe806cca9 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 11595000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x88000000 pwdata=0xe806cca9 prdata=0x67bd40ab pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 11605000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x88000000 pwdata=0xe806cca9 prdata=0x67bd40ab pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 11665000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=111 hprot=0000 hmastlock=0 hreadyin=1 haddr=0x89aba9e3 hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 11795000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=001 hprot=0100 hmastlock=0 hreadyin=1 haddr=0x868525fe hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 11885000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=011 hprot=0010 hmastlock=0 hreadyin=1 haddr=0x84ade8d4 hwdata=0x00000000 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 11895000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x84ade8d4 pwdata=0xe806cca9 prdata=0x4e19d9bd pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 11905000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x84ade8d4 pwdata=0xe806cca9 prdata=0x4e19d9bd pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(754) @ 11955000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x3184bdd8 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 12035000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=001 hprot=1111 hmastlock=0 hreadyin=1 haddr=0x8ab610b4 hwdata=0xc57e82a2 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 12045000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8ab610b4 pwdata=0xc57e82a2 prdata=0xdac66a0d pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 12055000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x8ab610b4 pwdata=0xc57e82a2 prdata=0xdac66a0d pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 12185000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=101 hprot=1111 hmastlock=0 hreadyin=1 haddr=0xf706338d hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 12265000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x838163f4 hwdata=0x00000000 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 12275000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x838163f4 pwdata=0xc57e82a2 prdata=0x47512fe0 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 12285000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x838163f4 pwdata=0xc57e82a2 prdata=0x47512fe0 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 12295000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x838163f4 pwdata=0xc57e82a2 prdata=0x47512fe0 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 12305000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x838163f4 pwdata=0xc57e82a2 prdata=0x47512fe0 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 12315000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=1 pslverr=0 paddr=0x838163f4 pwdata=0xc57e82a2 prdata=0x47512fe0 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(754) @ 12385000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=010 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x868a6d6c hwdata=0x00000000 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 12395000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x868a6d6c pwdata=0xc57e82a2 prdata=0x1ad5ef4f pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 12405000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x868a6d6c pwdata=0xc57e82a2 prdata=0x1ad5ef4f pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(754) @ 12635000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=010 hprot=0001 hmastlock=0 hreadyin=1 haddr=0x886ce70c hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 12645000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x886ce70c pwdata=0xc57e82a2 prdata=0x6539759f pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 12655000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x886ce70c pwdata=0xc57e82a2 prdata=0x6539759f pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 12665000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x886ce70c pwdata=0xc57e82a2 prdata=0x6539759f pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 12675000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x886ce70c pwdata=0xc57e82a2 prdata=0x6539759f pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(843) @ 12685000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x886ce70c pwdata=0xc57e82a2 prdata=0x6539759f pstrb=0000 pprot=000
+# UVM_INFO testbench.sv(754) @ 12755000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0101 hmastlock=0 hreadyin=1 haddr=0x310fc110 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 12815000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=111 hprot=0011 hmastlock=0 hreadyin=1 haddr=0xd860607b hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 12895000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=001 hprot=0000 hmastlock=0 hreadyin=1 haddr=0x856ac246 hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(710) @ 12995000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=011 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x8824321c hwdata=0xa29b98cd valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 13005000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8824321c pwdata=0xa29b98cd prdata=0x8c42a400 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 13015000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x8824321c pwdata=0xa29b98cd prdata=0x8c42a400 pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 13135000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=1010 hmastlock=0 hreadyin=1 haddr=0x6f53ce1c hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 13265000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=000 hprot=1011 hmastlock=0 hreadyin=1 haddr=0xa0b6d7fc hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 13345000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=111 hprot=1011 hmastlock=0 hreadyin=1 haddr=0x84082404 hwdata=0x00000000 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 13355000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x84082404 pwdata=0xa29b98cd prdata=0xcd2a4603 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 13365000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x84082404 pwdata=0xa29b98cd prdata=0xcd2a4603 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(754) @ 13415000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0110 hmastlock=0 hreadyin=1 haddr=0x80a2667c hwdata=0x00000000 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(843) @ 13425000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=001 penable=0 pready=1 pslverr=0 paddr=0x80a2667c pwdata=0xa29b98cd prdata=0xddd1d80b pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 13435000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x80a2667c pwdata=0xa29b98cd prdata=0xddd1d80b pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 13445000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x80a2667c pwdata=0xa29b98cd prdata=0xddd1d80b pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 13455000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=0 pslverr=0 paddr=0x80a2667c pwdata=0xa29b98cd prdata=0xddd1d80b pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 13465000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=001 penable=1 pready=1 pslverr=1 paddr=0x80a2667c pwdata=0xa29b98cd prdata=0xddd1d80b pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(754) @ 13535000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=101 hprot=0010 hmastlock=0 hreadyin=1 haddr=0x89f04b80 hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 13545000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x89f04b80 pwdata=0xa29b98cd prdata=0xa8791f4f pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 13555000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x89f04b80 pwdata=0xa29b98cd prdata=0xa8791f4f pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(843) @ 13565000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=1 pslverr=1 paddr=0x89f04b80 pwdata=0xa29b98cd prdata=0xa8791f4f pstrb=0000 pprot=101
+# UVM_INFO testbench.sv(754) @ 13635000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=011 hprot=0001 hmastlock=0 hreadyin=1 haddr=0x7e6e7c0f hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 13685000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=0100 hmastlock=0 hreadyin=1 haddr=0xe8675850 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 13775000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=100 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x8bfffffc hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 13785000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8bfffffc pwdata=0xa29b98cd prdata=0xc24f94f4 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 13795000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8bfffffc pwdata=0xa29b98cd prdata=0xc24f94f4 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 13805000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8bfffffc pwdata=0xa29b98cd prdata=0xc24f94f4 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 13815000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8bfffffc pwdata=0xa29b98cd prdata=0xc24f94f4 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(843) @ 13825000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x8bfffffc pwdata=0xa29b98cd prdata=0xc24f94f4 pstrb=0000 pprot=001
+# UVM_INFO testbench.sv(754) @ 13885000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=000 hburst=000 hprot=1000 hmastlock=0 hreadyin=1 haddr=0x89ce6410 hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 13895000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x89ce6410 pwdata=0xa29b98cd prdata=0xa84b3efe pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 13905000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x89ce6410 pwdata=0xa29b98cd prdata=0xa84b3efe pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(754) @ 13955000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=011 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x800d1fd5 hwdata=0x00000000 valid=0 error=1 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 14015000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=010 hprot=1110 hmastlock=0 hreadyin=1 haddr=0x83d30321 hwdata=0x00000000 valid=0 error=1 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 14055000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=1110 hmastlock=0 hreadyin=1 haddr=0x81d4f18b hwdata=0x00000000 valid=0 error=1 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 14115000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=1100 hmastlock=0 hreadyin=1 haddr=0x4dd1315f hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 14225000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=111 hprot=0110 hmastlock=0 hreadyin=1 haddr=0x8bfffffc hwdata=0x01cf56b0 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 14235000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8bfffffc pwdata=0x01cf56b0 prdata=0x329d9373 pstrb=1111 pprot=101
+# UVM_INFO testbench.sv(843) @ 14245000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8bfffffc pwdata=0x01cf56b0 prdata=0x329d9373 pstrb=1111 pprot=101
+# UVM_INFO testbench.sv(843) @ 14255000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8bfffffc pwdata=0x01cf56b0 prdata=0x329d9373 pstrb=1111 pprot=101
+# UVM_INFO testbench.sv(843) @ 14265000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x8bfffffc pwdata=0x01cf56b0 prdata=0x329d9373 pstrb=1111 pprot=101
+# UVM_INFO testbench.sv(710) @ 14385000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x8bc04340 hwdata=0xc06cfd13 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 14395000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x8bc04340 pwdata=0xc06cfd13 prdata=0xe834d0bb pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 14405000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8bc04340 pwdata=0xc06cfd13 prdata=0xe834d0bb pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 14415000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8bc04340 pwdata=0xc06cfd13 prdata=0xe834d0bb pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 14425000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x8bc04340 pwdata=0xc06cfd13 prdata=0xe834d0bb pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(843) @ 14435000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x8bc04340 pwdata=0xc06cfd13 prdata=0xe834d0bb pstrb=1111 pprot=001
+# UVM_INFO testbench.sv(754) @ 14505000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x89560f0f hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(710) @ 14625000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=011 hprot=0010 hmastlock=0 hreadyin=1 haddr=0x861d66f8 hwdata=0x753cd116 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(843) @ 14635000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=1 pselx=010 penable=0 pready=1 pslverr=0 paddr=0x861d66f8 pwdata=0x753cd116 prdata=0x32e272cd pstrb=1111 pprot=101
+# UVM_INFO testbench.sv(843) @ 14645000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=1 pselx=010 penable=1 pready=1 pslverr=0 paddr=0x861d66f8 pwdata=0x753cd116 prdata=0x32e272cd pstrb=1111 pprot=101
+# UVM_INFO testbench.sv(754) @ 14675000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=010 hprot=1100 hmastlock=0 hreadyin=1 haddr=0x88000000 hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(843) @ 14685000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_SETUP pwrite=0 pselx=100 penable=0 pready=1 pslverr=0 paddr=0x88000000 pwdata=0x753cd116 prdata=0x36c4732a pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 14695000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x88000000 pwdata=0x753cd116 prdata=0x36c4732a pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 14705000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x88000000 pwdata=0x753cd116 prdata=0x36c4732a pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 14715000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=0 pslverr=0 paddr=0x88000000 pwdata=0x753cd116 prdata=0x36c4732a pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(843) @ 14725000: uvm_test_top.env.apb.monitor [APB_MON] phase=APB_ENABLE pwrite=0 pselx=100 penable=1 pready=1 pslverr=0 paddr=0x88000000 pwdata=0x753cd116 prdata=0x36c4732a pstrb=0000 pprot=100
+# UVM_INFO testbench.sv(710) @ 14875000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=110 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x84ffd63c hwdata=0x1dadf025 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 14955000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x2ceff988 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 15035000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=011 hprot=1000 hmastlock=0 hreadyin=1 haddr=0x5acaa7f0 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 15085000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=010 hprot=1101 hmastlock=0 hreadyin=1 haddr=0x4bb69d54 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 15225000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=100 hprot=1110 hmastlock=0 hreadyin=1 haddr=0x881cf304 hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(710) @ 15395000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=001 hprot=0010 hmastlock=1 hreadyin=1 haddr=0x864eec4c hwdata=0x1dd717ae valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 15515000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=0010 hmastlock=0 hreadyin=1 haddr=0xa6eb55d4 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 15595000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=010 hprot=1100 hmastlock=0 hreadyin=1 haddr=0x859bb310 hwdata=0x3734c9ec valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 15765000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=1100 hmastlock=0 hreadyin=1 haddr=0x1319225b hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 15815000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=110 hprot=1000 hmastlock=0 hreadyin=1 haddr=0x88652690 hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 15905000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=001 hprot=0011 hmastlock=0 hreadyin=1 haddr=0xa5025f40 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 16005000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=1100 hmastlock=0 hreadyin=1 haddr=0x88151b79 hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 16065000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=001 hburst=010 hprot=1111 hmastlock=0 hreadyin=1 haddr=0xa1219d1c hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 16195000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=010 hprot=0011 hmastlock=1 hreadyin=1 haddr=0x8bce63ae hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 16255000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=010 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x89e0b3f8 hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 16375000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=0110 hmastlock=0 hreadyin=1 haddr=0x8683aff1 hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 16435000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=100 hprot=1001 hmastlock=0 hreadyin=1 haddr=0x82efa003 hwdata=0x00000000 valid=0 error=1 exp_pselx=001
+# UVM_INFO testbench.sv(710) @ 16575000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=000 hprot=1101 hmastlock=0 hreadyin=1 haddr=0x87dca43c hwdata=0x7ebead10 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(710) @ 16685000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=000 hprot=1010 hmastlock=1 hreadyin=1 haddr=0x8b7a46cc hwdata=0x58ed366c valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 16775000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=111 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x8b986609 hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 16855000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=100 hprot=1011 hmastlock=0 hreadyin=1 haddr=0x844d2007 hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 16905000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=1111 hmastlock=0 hreadyin=1 haddr=0x8b2a4830 hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(710) @ 17085000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x88000000 hwdata=0xc97a7c94 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 17225000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=111 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x8bfffffc hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 17325000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x81a7305b hwdata=0x00000000 valid=0 error=1 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 17405000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=001 hprot=1000 hmastlock=0 hreadyin=1 haddr=0x846b3a9b hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 17465000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=100 hprot=0100 hmastlock=0 hreadyin=1 haddr=0x9f3ae3e0 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 17565000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x80000000 hwdata=0x00000000 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 17655000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=011 hprot=1110 hmastlock=0 hreadyin=1 haddr=0x86106bd4 hwdata=0x00000000 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 17825000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=000 hprot=0100 hmastlock=0 hreadyin=1 haddr=0x88e4d2fb hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 17895000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x8bc03170 hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 18005000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=101 hprot=0110 hmastlock=0 hreadyin=1 haddr=0x85d6c1c8 hwdata=0x00000000 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 18175000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=110 hprot=0111 hmastlock=0 hreadyin=1 haddr=0x4d607e70 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 18235000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=111 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x81b4edc8 hwdata=0x00000000 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 18355000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=000 hprot=1110 hmastlock=0 hreadyin=1 haddr=0x54dd1900 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 18485000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=100 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x857dec60 hwdata=0x47c57a4b valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 18565000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=001 hprot=1111 hmastlock=0 hreadyin=1 haddr=0x59b806f8 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 18635000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=111 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x8305acc0 hwdata=0x73197059 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 18725000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0xb794822f hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 18875000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=000 hprot=1001 hmastlock=0 hreadyin=1 haddr=0x85061a8f hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 18955000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=1100 hmastlock=0 hreadyin=1 haddr=0x82255bc4 hwdata=0x00000000 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(710) @ 19035000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=000 hprot=1001 hmastlock=0 hreadyin=1 haddr=0x853271b8 hwdata=0x331b0a24 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 19115000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=000 hprot=0101 hmastlock=0 hreadyin=1 haddr=0x84ea9826 hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 19155000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=110 hprot=1001 hmastlock=0 hreadyin=1 haddr=0x861e29fc hwdata=0x00000000 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 19225000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=110 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x80e052de hwdata=0x00000000 valid=0 error=1 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 19475000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=1010 hmastlock=0 hreadyin=1 haddr=0x80000000 hwdata=0x00000000 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 19635000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=001 hprot=1110 hmastlock=0 hreadyin=1 haddr=0x843c24e0 hwdata=0x00000000 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 19735000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x84fd2944 hwdata=0x00000000 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 19815000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=001 hprot=0111 hmastlock=0 hreadyin=1 haddr=0x9f75c789 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 19875000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=001 hprot=1100 hmastlock=0 hreadyin=1 haddr=0x890edfad hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 20005000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=0101 hmastlock=0 hreadyin=1 haddr=0x8b635cb4 hwdata=0x00000000 valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(754) @ 20085000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=110 hprot=0110 hmastlock=0 hreadyin=1 haddr=0x82d2bf43 hwdata=0x00000000 valid=0 error=1 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 20155000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=111 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x80efc937 hwdata=0x00000000 valid=0 error=1 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 20225000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=001 hprot=1101 hmastlock=0 hreadyin=1 haddr=0x8a963de6 hwdata=0x00000000 valid=0 error=1 exp_pselx=100
+# UVM_INFO testbench.sv(710) @ 20435000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=111 hprot=1000 hmastlock=0 hreadyin=1 haddr=0x864e34c0 hwdata=0x1f329b3c valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(710) @ 20505000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=000 hprot=1011 hmastlock=0 hreadyin=1 haddr=0x88c00874 hwdata=0x4ce19a9f valid=1 error=0 exp_pselx=100
+# UVM_INFO testbench.sv(710) @ 20615000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=001 hprot=0110 hmastlock=0 hreadyin=1 haddr=0x84c23888 hwdata=0x796ab687 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 20705000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=11 hsize=010 hburst=000 hprot=1000 hmastlock=0 hreadyin=1 haddr=0x81d96c60 hwdata=0x00000000 valid=1 error=0 exp_pselx=001
+# UVM_INFO testbench.sv(754) @ 20855000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=0011 hmastlock=0 hreadyin=1 haddr=0x45204672 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 20915000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=0 htrans=10 hsize=010 hburst=000 hprot=1100 hmastlock=0 hreadyin=1 haddr=0x8c000000 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(710) @ 20965000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=001 hprot=0100 hmastlock=0 hreadyin=1 haddr=0x854e1e2c hwdata=0x50a50b80 valid=1 error=0 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 21085000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=11 hsize=010 hburst=000 hprot=0001 hmastlock=0 hreadyin=1 haddr=0x84761931 hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO testbench.sv(754) @ 21175000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=111 hprot=0001 hmastlock=0 hreadyin=1 haddr=0x071aef47 hwdata=0x00000000 valid=0 error=1 exp_pselx=000
+# UVM_INFO testbench.sv(754) @ 21235000: uvm_test_top.env.ahb.monitor [AHB_MON] hsel=1 hwrite=1 htrans=10 hsize=010 hburst=001 hprot=0001 hmastlock=1 hreadyin=1 haddr=0x8729f851 hwdata=0x00000000 valid=0 error=1 exp_pselx=010
+# UVM_INFO /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_objection.svh(1270) @ 116015000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO testbench.sv(1723) @ 116015000: uvm_test_top.env.cov [COV] AHB bus coverage = 100.00%
+# UVM_INFO testbench.sv(1724) @ 116015000: uvm_test_top.env.cov [COV] AHB accepted-transfer coverage = 98.75%
+# UVM_INFO testbench.sv(1725) @ 116015000: uvm_test_top.env.cov [COV] AHB aggregate coverage = 99.38%
+# UVM_INFO testbench.sv(1729) @ 116015000: uvm_test_top.env.cov [COV] APB coverage = 100.00%
+# UVM_INFO testbench.sv(1866) @ 116015000: uvm_test_top.env.cov [SPEC_COV] All tracked spec coverage bins were hit in this run
+# UVM_INFO testbench.sv(1274) @ 116015000: uvm_test_top.env.scb [SCB] Summary: ahb_valid=508 ahb_invalid=583 local_error=583 apb_setup=508 apb_enable=1255 apb_wait=747 apb_error=72 ahb_resp_checks=1746 hrdata_checks=208 pending=0 pending_rsp=0 have_setup=0
+# UVM_INFO /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_report_server.svh(847) @ 116015000: reporter [UVM/REPORT/SERVER] 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :  411
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    0
+# ** Report counts by id
+# [AHB_MON]   200
+# [APB_MON]   200
+# [COV]     4
+# [Questa UVM]     2
+# [RNTST]     1
+# [SCB]     1
+# [SPEC_COV]     1
+# [TEST]     1
+# [TEST_DONE]     1
+# 
+# ** Note: $finish    : /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_root.svh(517)
+#    Time: 116015 ns  Iteration: 68  Instance: /tb_top
+# Break in Task uvm_root::run_test at /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_root.svh line 517
+# Stopped at /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_root.svh line 517
+# Saving coverage database on exit...
+# End time: 06:44:45 on Jul 15,2026, Elapsed time: 0:00:03
+# Errors: 0, Warnings: 0
+End time: 06:44:45 on Jul 15,2026, Elapsed time: 0:00:17
+*** Summary *********************************************
+    qrun: Errors:   0, Warnings:   0
+    vlog: Errors:   0, Warnings:   0
+    vopt: Errors:   0, Warnings:   1
+    vsim: Errors:   0, Warnings:   0
+  Totals: Errors:   0, Warnings:   1

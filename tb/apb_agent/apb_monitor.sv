@@ -36,16 +36,21 @@ class apb_monitor extends uvm_component;
         tr.phase   = (vif.Penable) ? APB_ENABLE : APB_SETUP;
         tr.pwrite  = vif.Pwrite;
         tr.penable = vif.Penable;
+        tr.pready  = vif.Pready;
+        tr.pslverr = vif.Pslverr;
         tr.pselx   = vif.Pselx;
         tr.paddr   = vif.Paddr;
         tr.pwdata  = vif.Pwdata;
         tr.prdata  = vif.Prdata;
+        tr.pstrb   = vif.Pstrb;
+        tr.pprot   = vif.Pprot;
 
         if (monitor_log && monitor_log_count < monitor_log_max) begin
           `uvm_info("APB_MON", $sformatf(
-            "phase=%s pwrite=%0b pselx=%03b penable=%0b paddr=0x%08h pwdata=0x%08h prdata=0x%08h",
+            "phase=%s pwrite=%0b pselx=%03b penable=%0b pready=%0b pslverr=%0b paddr=0x%08h pwdata=0x%08h prdata=0x%08h pstrb=%04b pprot=%03b",
             tr.phase.name(), tr.pwrite, tr.pselx, tr.penable,
-            tr.paddr, tr.pwdata, tr.prdata), UVM_NONE)
+            tr.pready, tr.pslverr, tr.paddr, tr.pwdata, tr.prdata,
+            tr.pstrb, tr.pprot), UVM_NONE)
           monitor_log_count++;
         end
 

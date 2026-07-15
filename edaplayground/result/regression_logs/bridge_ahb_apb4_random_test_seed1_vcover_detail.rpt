@@ -1,0 +1,270 @@
+QuestaSim-64 vcover 2025.2 Coverage Utility 2025.05 May 31 2025
+Start time: 06:44:45 on Jul 15,2026
+vcover report -details -assert -codeAll regression_logs/bridge_ahb_apb4_random_test_seed1.ucdb 
+Coverage Report by instance with details
+
+=================================================================================
+=== Instance: /tb_top/dut/core
+=== Design Unit: work.bridge_7state_core
+=================================================================================
+
+Assertion Coverage:
+    Assertions                      31        27         4    87.09%
+--------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass 
+                                                  Count        Count
+--------------------------------------------------------------------
+/tb_top/dut/core/ap_state_legal
+                     design.sv(333)                     0          1
+/tb_top/dut/core/ap_psel_onehot
+                     design.sv(337)                     0          1
+/tb_top/dut/core/ap_active_has_exactly_one_select
+                     design.sv(341)                     0          1
+/tb_top/dut/core/ap_valid_decode_is_onehot
+                     design.sv(345)                     0          1
+/tb_top/dut/core/ap_penable_requires_psel
+                     design.sv(349)                     0          1
+/tb_top/dut/core/ap_setup_to_access
+                     design.sv(353)                     0          1
+/tb_top/dut/core/ap_setup_payload_stable_to_access
+                     design.sv(359)                     0          1
+/tb_top/dut/core/ap_setup_holds_when_pclken_low
+                     design.sv(365)                     0          0
+/tb_top/dut/core/ap_apb_wait_stability
+                     design.sv(371)                     0          1
+/tb_top/dut/core/ap_no_apb_for_local_error
+                     design.sv(376)                     0          1
+/tb_top/dut/core/ap_error_1_to_error_2_no_apb
+                     design.sv(381)                     0          1
+/tb_top/dut/core/ap_error_1_output
+                     design.sv(385)                     0          1
+/tb_top/dut/core/ap_error_2_output
+                     design.sv(389)                     0          1
+/tb_top/dut/core/ap_error2_read_accepted
+                     design.sv(394)                     0          0
+/tb_top/dut/core/ap_error2_write_accepted
+                     design.sv(399)                     0          0
+/tb_top/dut/core/ap_error2_bad_request
+                     design.sv(404)                     0          0
+/tb_top/dut/core/ap_response_error_apb_inactive
+                     design.sv(410)                     0          1
+/tb_top/dut/core/ap_read_pstrb_zero
+                     design.sv(414)                     0          1
+/tb_top/dut/core/ap_paddr_word_aligned
+                     design.sv(418)                     0          1
+/tb_top/dut/core/ap_apb_state_has_valid_request
+                     design.sv(422)                     0          1
+/tb_top/dut/core/ap_no_request_overwrite
+                     design.sv(426)                     0          1
+/tb_top/dut/core/ap_valid_only_in_apb_states
+                     design.sv(430)                     0          1
+/tb_top/dut/core/ap_write_header_waits_for_data
+                     design.sv(434)                     0          1
+/tb_top/dut/core/ap_wait_wdata_no_apb
+                     design.sv(438)                     0          1
+/tb_top/dut/core/ap_wait_wdata_capture_completes_request
+                     design.sv(442)                     0          1
+/tb_top/dut/core/ap_write_data_captured_once
+                     design.sv(446)                     0          1
+/tb_top/dut/core/ap_pslverr_maps_to_error
+                     design.sv(451)                     0          1
+/tb_top/dut/core/ap_final_access_stalls_ahb
+                     design.sv(456)                     0          1
+/tb_top/dut/core/ap_success_to_resp_ok
+                     design.sv(461)                     0          1
+/tb_top/dut/core/ap_two_cycle_error
+                     design.sv(465)                     0          1
+/tb_top/dut/core/ap_registered_read_data
+                     design.sv(470)                     0          1
+
+=================================================================================
+=== Instance: /tb_top/assertions
+=== Design Unit: work.bridge_assertions
+=================================================================================
+
+Assertion Coverage:
+    Assertions                      22        19         3    86.36%
+--------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass 
+                                                  Count        Count
+--------------------------------------------------------------------
+/tb_top/assertions/ap_psel_onehot
+                     testbench.sv(2886)                 0          1
+/tb_top/assertions/ap_enable_has_select
+                     testbench.sv(2889)                 0          1
+/tb_top/assertions/ap_setup_to_enable
+                     testbench.sv(2892)                 0          1
+/tb_top/assertions/ap_ctrl_stable_setup_to_enable
+                     testbench.sv(2899)                 0          1
+/tb_top/assertions/ap_wdata_stable_setup_to_enable
+                     testbench.sv(2903)                 0          1
+/tb_top/assertions/ap_ctrl_stable_during_wait
+                     testbench.sv(2909)                 0          1
+/tb_top/assertions/ap_wdata_stable_during_wait
+                     testbench.sv(2913)                 0          1
+/tb_top/assertions/ap_wait_stalls_ahb
+                     testbench.sv(2917)                 0          1
+/tb_top/assertions/ap_pslverr_only_at_completion
+                     testbench.sv(2921)                 0          1
+/tb_top/assertions/ap_pslverr_maps_to_ahb_error
+                     testbench.sv(2926)                 0          1
+/tb_top/assertions/ap_pready_okay_completes_ahb
+                     testbench.sv(2931)                 0          1
+/tb_top/assertions/ap_apb_final_waits_for_registered_response
+                     testbench.sv(2935)                 0          1
+/tb_top/assertions/ap_hrdata_captures_final_prdata
+                     testbench.sv(2940)                 0          1
+/tb_top/assertions/ap_read_pstrb_zero
+                     testbench.sv(2942)                 0          1
+/tb_top/assertions/ap_paddr_word_aligned
+                     testbench.sv(2945)                 0          1
+/tb_top/assertions/ap_hresp_legal
+                     testbench.sv(2948)                 0          1
+/tb_top/assertions/ap_error_two_cycle
+                     testbench.sv(2953)                 0          1
+/tb_top/assertions/ap_hrdata_zero_on_error
+                     testbench.sv(2957)                 0          1
+/tb_top/assertions/ap_error2_read_accepted
+                     testbench.sv(2963)                 0          0
+/tb_top/assertions/ap_error2_write_accepted
+                     testbench.sv(2969)                 0          0
+/tb_top/assertions/ap_error2_bad_request
+                     testbench.sv(2975)                 0          0
+/tb_top/assertions/ap_unsupported_selected_gets_error
+                     testbench.sv(2980)                 0          1
+
+=================================================================================
+=== Instance: /uvm_pkg
+=== Design Unit: work.uvm_pkg
+=================================================================================
+
+Assertion Coverage:
+    Assertions                       1         1         0   100.00%
+--------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass 
+                                                  Count        Count
+--------------------------------------------------------------------
+/uvm_pkg/uvm_component_name_check_visitor/visit/immed__262
+                     /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_traversal.svh(262)
+                                                        0          1
+
+
+ASSERTION RESULTS:
+--------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass 
+                                                  Count        Count
+--------------------------------------------------------------------
+/tb_top/dut/core/ap_state_legal
+                     design.sv(333)                     0          1
+/tb_top/dut/core/ap_psel_onehot
+                     design.sv(337)                     0          1
+/tb_top/dut/core/ap_active_has_exactly_one_select
+                     design.sv(341)                     0          1
+/tb_top/dut/core/ap_valid_decode_is_onehot
+                     design.sv(345)                     0          1
+/tb_top/dut/core/ap_penable_requires_psel
+                     design.sv(349)                     0          1
+/tb_top/dut/core/ap_setup_to_access
+                     design.sv(353)                     0          1
+/tb_top/dut/core/ap_setup_payload_stable_to_access
+                     design.sv(359)                     0          1
+/tb_top/dut/core/ap_setup_holds_when_pclken_low
+                     design.sv(365)                     0          0
+/tb_top/dut/core/ap_apb_wait_stability
+                     design.sv(371)                     0          1
+/tb_top/dut/core/ap_no_apb_for_local_error
+                     design.sv(376)                     0          1
+/tb_top/dut/core/ap_error_1_to_error_2_no_apb
+                     design.sv(381)                     0          1
+/tb_top/dut/core/ap_error_1_output
+                     design.sv(385)                     0          1
+/tb_top/dut/core/ap_error_2_output
+                     design.sv(389)                     0          1
+/tb_top/dut/core/ap_error2_read_accepted
+                     design.sv(394)                     0          0
+/tb_top/dut/core/ap_error2_write_accepted
+                     design.sv(399)                     0          0
+/tb_top/dut/core/ap_error2_bad_request
+                     design.sv(404)                     0          0
+/tb_top/dut/core/ap_response_error_apb_inactive
+                     design.sv(410)                     0          1
+/tb_top/dut/core/ap_read_pstrb_zero
+                     design.sv(414)                     0          1
+/tb_top/dut/core/ap_paddr_word_aligned
+                     design.sv(418)                     0          1
+/tb_top/dut/core/ap_apb_state_has_valid_request
+                     design.sv(422)                     0          1
+/tb_top/dut/core/ap_no_request_overwrite
+                     design.sv(426)                     0          1
+/tb_top/dut/core/ap_valid_only_in_apb_states
+                     design.sv(430)                     0          1
+/tb_top/dut/core/ap_write_header_waits_for_data
+                     design.sv(434)                     0          1
+/tb_top/dut/core/ap_wait_wdata_no_apb
+                     design.sv(438)                     0          1
+/tb_top/dut/core/ap_wait_wdata_capture_completes_request
+                     design.sv(442)                     0          1
+/tb_top/dut/core/ap_write_data_captured_once
+                     design.sv(446)                     0          1
+/tb_top/dut/core/ap_pslverr_maps_to_error
+                     design.sv(451)                     0          1
+/tb_top/dut/core/ap_final_access_stalls_ahb
+                     design.sv(456)                     0          1
+/tb_top/dut/core/ap_success_to_resp_ok
+                     design.sv(461)                     0          1
+/tb_top/dut/core/ap_two_cycle_error
+                     design.sv(465)                     0          1
+/tb_top/dut/core/ap_registered_read_data
+                     design.sv(470)                     0          1
+/tb_top/assertions/ap_psel_onehot
+                     testbench.sv(2886)                 0          1
+/tb_top/assertions/ap_enable_has_select
+                     testbench.sv(2889)                 0          1
+/tb_top/assertions/ap_setup_to_enable
+                     testbench.sv(2892)                 0          1
+/tb_top/assertions/ap_ctrl_stable_setup_to_enable
+                     testbench.sv(2899)                 0          1
+/tb_top/assertions/ap_wdata_stable_setup_to_enable
+                     testbench.sv(2903)                 0          1
+/tb_top/assertions/ap_ctrl_stable_during_wait
+                     testbench.sv(2909)                 0          1
+/tb_top/assertions/ap_wdata_stable_during_wait
+                     testbench.sv(2913)                 0          1
+/tb_top/assertions/ap_wait_stalls_ahb
+                     testbench.sv(2917)                 0          1
+/tb_top/assertions/ap_pslverr_only_at_completion
+                     testbench.sv(2921)                 0          1
+/tb_top/assertions/ap_pslverr_maps_to_ahb_error
+                     testbench.sv(2926)                 0          1
+/tb_top/assertions/ap_pready_okay_completes_ahb
+                     testbench.sv(2931)                 0          1
+/tb_top/assertions/ap_apb_final_waits_for_registered_response
+                     testbench.sv(2935)                 0          1
+/tb_top/assertions/ap_hrdata_captures_final_prdata
+                     testbench.sv(2940)                 0          1
+/tb_top/assertions/ap_read_pstrb_zero
+                     testbench.sv(2942)                 0          1
+/tb_top/assertions/ap_paddr_word_aligned
+                     testbench.sv(2945)                 0          1
+/tb_top/assertions/ap_hresp_legal
+                     testbench.sv(2948)                 0          1
+/tb_top/assertions/ap_error_two_cycle
+                     testbench.sv(2953)                 0          1
+/tb_top/assertions/ap_hrdata_zero_on_error
+                     testbench.sv(2957)                 0          1
+/tb_top/assertions/ap_error2_read_accepted
+                     testbench.sv(2963)                 0          0
+/tb_top/assertions/ap_error2_write_accepted
+                     testbench.sv(2969)                 0          0
+/tb_top/assertions/ap_error2_bad_request
+                     testbench.sv(2975)                 0          0
+/tb_top/assertions/ap_unsupported_selected_gets_error
+                     testbench.sv(2980)                 0          1
+/uvm_pkg/uvm_component_name_check_visitor/visit/immed__262
+                     /usr/share/questa/questasim/verilog_src/uvm-1.2/src/base/uvm_traversal.svh(262)
+                                                        0          1
+
+Total Coverage By Instance (filtered view): 87.03%
+
+End time: 06:44:45 on Jul 15,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0

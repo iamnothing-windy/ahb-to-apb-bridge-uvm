@@ -53,10 +53,17 @@ quartus_signoff*/
 # Inactive/raw fmax experiment; bridge_core_fmax is the active timing project.
 quartus_fmax/bridge_fmax.*
 
-# Keep the focused post-fit timing evidence cited by TIMING_SIGNOFF_STATUS.md.
+# Keep the focused post-fit timing evidence cited by docs/timing_signoff_status.md.
 !quartus_fmax/output_files_core/
 quartus_fmax/output_files_core/*
 !quartus_fmax/output_files_core/bridge_core_fmax.postfit_sta.short.summary
+
+# Keep only the curated archived EDA evidence cited by docs/eda_playground_result.md.
+edaplayground/result/*
+!edaplayground/result/regression_logs/
+edaplayground/result/regression_logs/*
+!edaplayground/result/regression_logs/bridge_ahb_apb4_random_test_seed1.log
+!edaplayground/result/regression_logs/bridge_ahb_apb4_random_test_seed1_vcover_detail.rpt
 
 # OS/editor noise
 .DS_Store

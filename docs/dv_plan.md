@@ -63,7 +63,7 @@ PPROT[1] non-secure cannot be derived from the current AHB Rev 2.0-side interfac
 AMBA test-interface/TIC functionality is not implemented.
 ```
 
-The active architecture is the 7-State Transaction-Buffered Synchronous AHB-to-APB4 Bridge: one complete request buffer, registered non-posted response, local-error rejection before APB, optional synchronous `Pclken`, and acceptance windows in `ST_IDLE`, `ST_RESP_OK`, and `ST_ERROR_2`. The EDA flattened RTL/TB has been upgraded beyond APB2 with APB3/APB4-style `PREADY`, `PSLVERR`, `PSTRB`, and `PPROT`. A previously archived simulator run showed the older `bridge_amba_rev2_random_test` path was clean, but that log did not compile with `+define+BRIDGE_RTL_ASSERTIONS` and predates the HREADYIN-driver, local-error-scoreboard, APB-PSLVERR-boundary, and test-name updates. The current default random test is `bridge_ahb_apb4_random_test`; full current-source closure requires a new licensed simulator run. The current TB fatals if `BRIDGE_RTL_ASSERTIONS` is missing unless `+ALLOW_NO_RTL_ASSERTIONS` is explicitly passed for non-signoff debug.
+The active architecture is the 7-State Transaction-Buffered Synchronous AHB-to-APB4 Bridge: one complete request buffer, registered non-posted response, local-error rejection before APB, optional synchronous `Pclken`, and acceptance windows in `ST_IDLE`, `ST_RESP_OK`, and `ST_ERROR_2`. The EDA flattened RTL/TB has been upgraded beyond APB2 with APB3/APB4-style `PREADY`, `PSLVERR`, `PSTRB`, and `PPROT`. The current archived `bridge_ahb_apb4_random_test` run used `+define+BRIDGE_RTL_ASSERTIONS`, seed 1, 500 items, `+STRICT_SPEC_COVERAGE`, APB wait/error randomization, and ended with `UVM_ERROR=0` and `UVM_FATAL=0`. Full closure still requires multi-seed regression, directed response-boundary tests, reset-random, USE_PCLKEN=1, and code/assertion coverage review.
 
 These gaps are not silently ignored. If the project requirement is full ARM AMBA module compliance, RETRY/SPLIT, burst/lock semantics, and the AMBA test interface require implementation or explicit waiver. If the project requirement is this educational AHB-to-APB bridge, these items are out of scope but must remain documented.
 
@@ -90,7 +90,7 @@ Full ARM AMBA Rev 2.0 module claim     -> Not closed; current RTL has missing in
 The explicit compliance matrix is maintained in:
 
 ```text
-AMBA_REV2_COMPLIANCE_MATRIX.md
+docs/amba_rev2_compliance_matrix.md
 ```
 
 ## 3. Plan Mistakes To Correct
@@ -1114,8 +1114,8 @@ The current UVM TB is useful for bring-up, but it is not yet signoff-quality.
 Known gaps after the latest EDA testbench edit:
 
 ```text
-Latest archived bridge_amba_rev2_random_test hit required non-pipeline tracked spec bins with no UVM errors, but it predates current TB edits and did not compile internal RTL assertions.
-Local qrun compile/vopt with +define+BRIDGE_RTL_ASSERTIONS passes for the current edited source; local vsim is blocked by license checkout, so no current-source UVM runtime or assertion-attempt report is archived yet.
+Latest archived bridge_ahb_apb4_random_test hit all tracked spec bins with no UVM errors/fatals and compiled internal RTL assertions.
+Local Questa compile passes for the structured `sim/` flow, but local `vsim` runtime on this host still depends on a valid Questa license checkout.
 UCDB save and detailed covergroup/assertion/code reporting are now scripted; use bridge_cvg_detail.rpt, bridge_assert_detail.rpt, and bridge_code_assert_detail.rpt to identify exact uncovered bins before changing stimulus.
 Response-boundary coverage now means the next request is accepted on the `RESP_OK` or `ERROR_2` boundary cycle, with no required acceptance bubble; it is gated by +STRICT_PIPELINE_COVERAGE.
 bridge_error_boundary_test now targets both local-error and APB-PSLVERR ERROR_2 boundaries, but it has not yet been completed in an archived licensed simulator log for this source revision.

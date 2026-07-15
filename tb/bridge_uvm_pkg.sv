@@ -50,6 +50,7 @@ package bridge_uvm_pkg;
   `include "bridge_sanity_test.sv"
   `include "bridge_reset_test.sv"
   `include "bridge_random_test.sv"
+  `include "bridge_ahb_apb4_random_test.sv"
   `include "bridge_invalid_random_test.sv"
   `include "bridge_boundary_random_test.sv"
   `include "bridge_back_to_back_random_test.sv"

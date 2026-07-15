@@ -3,10 +3,11 @@ if {[file exists work]} {
 }
 vlib work
 
-set RTL_DIR ../AHB-to-APB-Bridge
+set RTL_DIR ../edaplayground
 set TB_DIR  ../tb
 
 vlog -sv \
+  +define+BRIDGE_RTL_ASSERTIONS \
   +incdir+$TB_DIR \
   +incdir+$TB_DIR/ahb_agent \
   +incdir+$TB_DIR/apb_agent \
@@ -15,13 +16,11 @@ vlog -sv \
   +incdir+$TB_DIR/tests \
   +incdir+$TB_DIR/top \
   +incdir+$TB_DIR/interfaces \
-  $RTL_DIR/AHB_Slave_Interface.v \
-  $RTL_DIR/APB_Controller.v \
-  $RTL_DIR/bridge_top.v \
+  $RTL_DIR/design.sv \
   $TB_DIR/interfaces/ahb_if.sv \
   $TB_DIR/interfaces/apb_if.sv \
   $TB_DIR/bridge_uvm_pkg.sv \
   $TB_DIR/top/bridge_assertions.sv \
   $TB_DIR/top/tb_top.sv
 
-vsim -c work.tb_top +UVM_TESTNAME=bridge_random_test +NUM_ITEMS=100 -sv_seed random -do "run -all; quit -f"
+vsim -c work.tb_top +UVM_TESTNAME=bridge_ahb_apb4_random_test +NUM_ITEMS=100 -sv_seed random -do "run -all; quit -f"

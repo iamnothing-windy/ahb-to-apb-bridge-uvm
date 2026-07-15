@@ -38,15 +38,20 @@ class ahb_monitor extends uvm_component;
         continue;
       end
 
-      if (vif.Htrans == 2'b00 && vif.Haddr == 32'h0000_0000 &&
+      if (vif.Hsel == 1'b0 && vif.Htrans == 2'b00 && vif.Haddr == 32'h0000_0000 &&
           vif.Hwrite == 1'b0 && vif.Hreadyin == 1'b1) begin
         continue;
       end
 
       if (vif.Htrans inside {2'b00, 2'b01, 2'b10, 2'b11}) begin
         tr = ahb_item::type_id::create("tr", this);
+        tr.hsel     = vif.Hsel;
         tr.hwrite   = vif.Hwrite;
         tr.htrans   = vif.Htrans;
+        tr.hsize    = vif.Hsize;
+        tr.hburst   = vif.Hburst;
+        tr.hprot    = vif.Hprot;
+        tr.hmastlock = vif.Hmastlock;
         tr.hreadyin = vif.Hreadyin;
         tr.haddr    = vif.Haddr;
         tr.hwdata   = vif.Hwdata;
@@ -64,9 +69,10 @@ class ahb_monitor extends uvm_component;
 
         if (monitor_log && monitor_log_count < monitor_log_max) begin
           `uvm_info("AHB_MON", $sformatf(
-            "hwrite=%0b htrans=%02b hreadyin=%0b haddr=0x%08h hwdata=0x%08h valid=%0b exp_pselx=%03b",
-            tr.hwrite, tr.htrans, tr.hreadyin, tr.haddr, tr.hwdata,
-            tr.expected_valid, tr.expected_pselx), UVM_NONE)
+            "hsel=%0b hwrite=%0b htrans=%02b hsize=%03b hburst=%03b hprot=%04b hmastlock=%0b hreadyin=%0b haddr=0x%08h hwdata=0x%08h valid=%0b error=%0b exp_pselx=%03b",
+            tr.hsel, tr.hwrite, tr.htrans, tr.hsize, tr.hburst, tr.hprot,
+            tr.hmastlock, tr.hreadyin, tr.haddr, tr.hwdata,
+            tr.expected_valid, tr.expected_error, tr.expected_pselx), UVM_NONE)
           monitor_log_count++;
         end
 
