@@ -1,0 +1,64 @@
+# Simulator outputs
+**/work/
+**/qrun.out/
+**/transcript
+**/vsim.wlf
+**/*.wlf
+**/*.ucdb
+**/modelsim.ini
+edaplayground/regression_logs/
+edaplayground/bridge*.rpt
+edaplayground/bridge*.ucdb
+
+# Logs are generated unless explicitly kept as archived evidence.
+*.log
+
+# Quartus generated databases and reports
+**/db/
+**/incremental_db/
+**/output_files*/
+*.rpt
+*.summary
+*.smsg
+*.pin
+*.sof
+*.pof
+*.jdi
+*.done
+*.qws
+*.qdf
+*.qmsg
+*.hdb
+*.cdb
+*.ddb
+*.kpt
+*.ammdb
+*.rdb
+*.tdb
+*.idb
+*.bpm
+*.hif
+*.sci
+*.sig
+*.dpi
+*.flock
+*.logdb
+*.ptf
+*.sld
+
+# Scratch timing/runtime investigation projects
+quartus_fit_smoke*/
+quartus_signoff*/
+
+# Inactive/raw fmax experiment; bridge_core_fmax is the active timing project.
+quartus_fmax/bridge_fmax.*
+
+# Keep the focused post-fit timing evidence cited by TIMING_SIGNOFF_STATUS.md.
+!quartus_fmax/output_files_core/
+quartus_fmax/output_files_core/*
+!quartus_fmax/output_files_core/bridge_core_fmax.postfit_sta.short.summary
+
+# OS/editor noise
+.DS_Store
+*~
+*.swp

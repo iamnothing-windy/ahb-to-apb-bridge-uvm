@@ -1,0 +1,55 @@
+Post-fit TimeQuest short summary
+Project: bridge_core_fmax
+
+Corner: Slow 1100mV 85C Model
+Setup clk slack=0.174 tns=0.000
+Hold clk slack=0.308 tns=0.000
+Recovery clk slack=8.724 tns=0.000
+Removal clk slack=0.870 tns=0.000
+Minimum Pulse Width clk slack=4.292 tns=0.000
+
+Corner: Slow 1100mV 0C Model
+Setup clk slack=0.222 tns=0.000
+Hold clk slack=0.286 tns=0.000
+Recovery clk slack=8.751 tns=0.000
+Removal clk slack=0.838 tns=0.000
+Minimum Pulse Width clk slack=4.238 tns=0.000
+
+Corner: Fast 1100mV 85C Model
+Setup clk slack=3.220 tns=0.000
+Hold clk slack=0.176 tns=0.000
+Recovery clk slack=9.331 tns=0.000
+Removal clk slack=0.502 tns=0.000
+Minimum Pulse Width clk slack=4.381 tns=0.000
+
+Corner: Fast 1100mV 0C Model
+Setup clk slack=3.488 tns=0.000
+Hold clk slack=0.162 tns=0.000
+Recovery clk slack=9.386 tns=0.000
+Removal clk slack=0.461 tns=0.000
+Minimum Pulse Width clk slack=4.374 tns=0.000
+
++---------------------+
+; Unconstrained Paths ;
++---------------------+
++------------------------------------------------+
+; Unconstrained Paths Summary                    ;
++---------------------------------+-------+------+
+; Property                        ; Setup ; Hold ;
++---------------------------------+-------+------+
+; Illegal Clocks                  ; 0     ; 0    ;
+; Unconstrained Clocks            ; 0     ; 0    ;
+; Unconstrained Input Ports       ; 0     ; 0    ;
+; Unconstrained Input Port Paths  ; 0     ; 0    ;
+; Unconstrained Output Ports      ; 0     ; 0    ;
+; Unconstrained Output Port Paths ; 0     ; 0    ;
++---------------------------------+-------+------+
+
++-------------------------------------+
+; Clock Status Summary                ;
++--------+-------+------+-------------+
+; Target ; Clock ; Type ; Status      ;
++--------+-------+------+-------------+
+; clk    ; clk   ; Base ; Constrained ;
++--------+-------+------+-------------+
+

@@ -1,0 +1,5 @@
+# Quartus II Project File
+
+QUARTUS_VERSION = "13.1"
+
+PROJECT_REVISION = "bridge_core_fmax"
