@@ -33,28 +33,39 @@ See `docs/architecture_overview.md` for the state machine, request buffering, an
 
 ## Verification Evidence
 
+### UVM Regression Result
+
+| Field | Value |
+| --- | --- |
+| Test | `bridge_ahb_apb4_random_test` |
+| Seed | `1` |
+| Run config | `+define+BRIDGE_RTL_ASSERTIONS`, `NUM_ITEMS=500`, `MAX_ITEMS=10000`, `APB_MAX_WAIT=3`, `APB_ERR_PERCENT=15`, `STRICT_SPEC_COVERAGE` |
+| UVM summary | `UVM_WARNING=0`, `UVM_ERROR=0`, `UVM_FATAL=0` |
+| Coverage | AHB bus `100.00%`, accepted `98.75%`, aggregate `99.38%`, APB `100.00%`, all tracked spec bins hit |
+| Scoreboard | `ahb_valid=508`, `ahb_invalid=583`, `local_error=583`, `apb_setup=508`, `apb_enable=1255`, `apb_wait=747`, `apb_error=72`, `ahb_resp_checks=1746`, `hrdata_checks=208`, `pending=0`, `pending_rsp=0`, `have_setup=0` |
+| Assertion coverage | `bridge_7state_core 87.09%`, `bridge_assertions 86.36%` |
+
+Artifacts:
+
 | Artifact | Meaning |
 | --- | --- |
 | `edaplayground/result/regression_logs/bridge_ahb_apb4_random_test_seed1.log` | Archived clean Questa regression log |
 | `edaplayground/result/regression_logs/bridge_ahb_apb4_random_test_seed1_vcover_detail.rpt` | Assertion coverage detail |
+| `docs/eda_playground_result.md` | Short written summary of the archived UVM run |
+
+### Post-Fit Timing
+
+| Metric | Value |
+| --- | --- |
+| Setup slack | `+0.174 ns` |
+| Hold slack | `+0.162 ns` |
+| TNS | `0.000 ns` |
+
+Timing artifact:
+
+| Artifact | Meaning |
+| --- | --- |
 | `quartus_fmax/output_files_core/bridge_core_fmax.postfit_sta.short.summary` | Current post-fit timing summary |
-
-Archived Questa run:
-
-- Test: `bridge_ahb_apb4_random_test`
-- Seed: `1`
-- `UVM_ERROR = 0`
-- `UVM_FATAL = 0`
-- AHB bus coverage: `100.00%`
-- AHB accepted-transfer coverage: `98.75%`
-- AHB aggregate coverage: `99.38%`
-- APB coverage: `100.00%`
-
-Post-fit timing:
-
-- Setup slack: `+0.174 ns`
-- Hold slack: `+0.162 ns`
-- TNS: `0.000 ns`
 
 ## How To Run
 
